@@ -60,11 +60,11 @@ const userSchema = new Schema(
 )
 
 // Mongoose middlewares - Hashing Password
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
     // Only hash the password when password is passed, if not, return and pass to the next middleware
     if(!this.isModified("password")) return next();
 
-    this.password = bcrypt.hash(this.password, 10)  // Rounds/Salt is passed - Read about it more
+    this.password = await bcrypt.hash(this.password, 10)  // Rounds/Salt is passed - Read about it more
     next();
 })
 
