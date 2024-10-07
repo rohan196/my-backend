@@ -19,7 +19,7 @@ const registerUser = asyncHandler( async (req, res) => {
 
     // User details - get
     const {fullName, email, username, password} = req.body;         // destructuring the data 
-    console.log("email: ", email);
+    // console.log("email: ", email);
 
     // validation
     if(
@@ -29,7 +29,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }                                                                                   // add rules for whatever you want - like eamail should contain @
 
     // Checking if User exists
-    const existedUser = User.findOne({
+    const existedUser = await User.findOne({
         $or: [{username}, {email}]
     })
 
@@ -39,19 +39,37 @@ const registerUser = asyncHandler( async (req, res) => {
 
     // check for images/avatar
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    // const coverImageLocalPath = res?.files?.coverImage?.[0]?.path;
+
+    let coverImageLocalPath;
+    if(req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length>0) {
+        coverImageLocalPath = req.files.coverImage[0].path;
+    }
 
     if(!avatarLocalPath) {
-        throw new ApiError(400, "Avatar file is required")
+        throw new ApiError(400, "Avatar file is required | multer")
     }
+    // if(!coverImageLocalPath) {
+    //     throw new ApiError(400, "Cover Image file is required | multer")
+    // }
+
+    // console.log(avatarLocalPath);
 
     // upload on cloudinary - await cuz it might take time
     const avatar = await uploadOnCloudinary(avatarLocalPath);
-    const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath);       // if not sent - returns an empty string
+
 
     if(!avatar) {
-        throw new ApiError(400, "Avatar file is required");
+        throw new ApiError(400, "Avatar file is required | cloudinary");
     }
+
+    // if(!coverImage) {
+    //     throw new ApiError(400, "Cover Image file is required | cloudinary");
+    // }
+
+
 
     // entry in database
     const user = await User.create({
