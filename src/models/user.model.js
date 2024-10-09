@@ -25,13 +25,6 @@ const userSchema = new Schema(
             trim: true,
             index: true 
         },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true,
-        },
         avatar: {
             type: String,           // Cloudinary url
             required: true,
