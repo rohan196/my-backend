@@ -1,3 +1,3 @@
-# First Backenf Project
+# First Backend Project
 
-This is my first full fledged backend project, guided by Chai aur Code
+This is my first full-fledged backend project, guided by Chai aur Code
