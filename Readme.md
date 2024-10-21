@@ -74,7 +74,7 @@ and combines Twitter's tweet functionality into it. You can find more about his 
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/Hruthik-28/youtube-twitter.git
+    git clone [https://github.com/rohan196/my-backend.git]
     ```
 
 2. **Install dependencies:**
